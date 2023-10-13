@@ -27,7 +27,7 @@ export class EmployeesService {
 
         return this.employeesRepository.create({
             personalId: personalId,
-            hash
+            hash: hash
         });
     }
 
