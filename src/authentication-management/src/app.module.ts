@@ -6,11 +6,14 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.env',
-      isGlobal: true
-    }),
-    MongooseModule.forRoot(process.env.MONGODB_URI),
+import { Module } from "@nestjs/common";
+import { MongooseModule as BaseMongooseModule } from "@nestjs/mongoose";
+
+@Module({
+  imports: [BaseMongooseModule.forRoot(process.env.MONGODB_URI],
+  exports: [],
+})
+export class MongooseModule {}
     AuthModule,
     EmployeesModule
   ],
