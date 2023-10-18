@@ -9,6 +9,7 @@ import { EmployeesRepository } from "./employees.repository";
     imports: [MongooseModule.forFeature([{ name: Employee.name, schema: EmployeeSchema }])],
     controllers: [EmployeesController],
     providers: [EmployeesService, EmployeesRepository],
+    exports: [EmployeesRepository]
     
 })
 export class EmployeesModule {}
