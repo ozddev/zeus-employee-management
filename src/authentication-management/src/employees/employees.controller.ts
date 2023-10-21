@@ -16,11 +16,9 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
-  @Get(':personalId')
-  async getEmployee(
-    @Param('personalId') personalId: string,
-  ): Promise<Employee> {
-    return this.employeesService.getEmployeeByPersonalId(personalId);
+  @Get(':id')
+  async getEmployee(@Param('id') id: string): Promise<Employee> {
+    return this.employeesService.getEmployeeById(id);
   }
 
   @Get()
@@ -35,12 +33,12 @@ export class EmployeesController {
     return this.employeesService.createEmployee(createEmployeeDto);
   }
 
-  @Patch(':personalId')
+  @Patch(':id')
   async updateEmployee(
-    @Param('personalId') personalId: string,
+    @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
   ): Promise<Employee> {
-    return this.employeesService.updateEmployee(personalId, updateEmployeeDto);
+    return this.employeesService.updateEmployee(id, updateEmployeeDto);
   }
 
   @Delete()

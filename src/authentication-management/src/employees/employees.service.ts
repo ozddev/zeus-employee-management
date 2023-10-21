@@ -6,12 +6,12 @@ import { FilterQuery } from 'mongoose';
 import { hashPassword } from 'src/shared/helper';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 
-@Injectable({})
+@Injectable()
 export class EmployeesService {
   constructor(private readonly employeesRepository: EmployeesRepository) {}
 
   async getEmployeeById(id: string): Promise<Employee> {
-    return this.employeesRepository.findOne({ id });
+    return this.employeesRepository.findOne({ _id: id });
   }
 
   async getEmployeeByPersonalId(personalId: string): Promise<Employee> {
@@ -25,19 +25,17 @@ export class EmployeesService {
   async createEmployee(
     createEmployeeDto: CreateEmployeeDto,
   ): Promise<Employee> {
-    const hash = await hashPassword(createEmployeeDto.hash);
-    return this.employeesRepository.create({
-      personalId: createEmployeeDto.personalId,
-      hash: hash,
-    });
+    createEmployeeDto.hash = await hashPassword(createEmployeeDto.hash);
+    return this.employeesRepository.create({ createEmployeeDto });
   }
 
   async updateEmployee(
-    personalId: string,
+    id: string,
     employeeUpdates: UpdateEmployeeDto,
   ): Promise<Employee> {
+    employeeUpdates.hash = await hashPassword(employeeUpdates.hash);
     return this.employeesRepository.findOneAndUpdate(
-      { personalId },
+      { _id: id },
       employeeUpdates,
     );
   }

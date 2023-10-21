@@ -1,17 +1,10 @@
 import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
 
-export abstract class EntityRepository<T extends Document> {
+export abstract class AbstractRepository<T extends Document> {
   constructor(protected readonly entityModel: Model<T>) {}
 
-  async findOne(
-    entityFilterQuery: FilterQuery<T>,
-    projection?: Record<string, unknown>,
-  ): Promise<T | null> {
-    return this.entityModel
-      .findOne(entityFilterQuery, {
-        ...projection,
-      })
-      .exec();
+  async findOne(entityFilterQuery: FilterQuery<T>): Promise<T | null> {
+    return this.entityModel.findOne(entityFilterQuery);
   }
 
   async find(entityFilterQuery: FilterQuery<T>): Promise<T[] | null> {
