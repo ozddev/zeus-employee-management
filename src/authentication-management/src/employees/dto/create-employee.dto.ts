@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -8,6 +8,7 @@ export class CreateEmployeeDto {
   lastName: string;
 
   @IsString()
+  @IsOptional()
   email: string;
 
   @IsString()
@@ -35,12 +36,15 @@ export class CreateEmployeeDto {
   gender: string;
 
   @IsString()
+  @IsOptional()
   maritalSatus: string;
 
   @IsString()
+  @IsOptional()
   nationality: string;
 
   @IsString()
+  @IsOptional()
   birthName: string;
 
   @IsString()
@@ -56,6 +60,7 @@ export class CreateEmployeeDto {
   iban: string;
 
   @IsString()
+  @IsOptional()
   bic: string;
 
   @IsString()

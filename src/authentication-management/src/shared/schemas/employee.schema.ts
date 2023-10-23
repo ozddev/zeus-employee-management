@@ -5,64 +5,117 @@ import { Document } from 'mongoose';
   timestamps: true,
 })
 export class Employee extends Document {
-  @Prop()
+  @Prop({
+    required: true,
+  })
+  personalId: string;
+
+  @Prop({
+    required: true,
+  })
   firstName: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   lastName: string;
 
-  @Prop({ unique: [true, 'Duplicate email address entered.'] })
+  @Prop({
+    required: false,
+    default: null,
+    unique: true,
+  })
   email: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   hash: string;
 
-  @Prop({ unique: [true, 'Duplicate phone number entered.'] })
+  @Prop({
+    required: true,
+    unique: true,
+  })
   phoneNumber: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   address: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   zipCode: number;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   city: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   dateOfBirth: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   placeOfBirth: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   gender: string;
 
-  @Prop()
+  @Prop({
+    required: false,
+    default: null,
+  })
   maritalSatus: string;
 
-  @Prop()
+  @Prop({
+    required: false,
+    default: null,
+  })
   nationality: string;
 
-  @Prop()
+  @Prop({
+    required: false,
+    default: null,
+  })
   birthName: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   socialNumber: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   idNumber: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   bankName: string;
 
-  @Prop({ unique: [true, 'Duplicate IBAN entered.'] })
+  @Prop({
+    required: true,
+    unique: true
+  })
   iban: string;
 
-  @Prop()
+  @Prop({
+    required: false,
+    default: null,
+  })
   bic: string;
 
-  @Prop()
+  @Prop({
+    required: true,
+  })
   cardHolder: string;
 }
 
