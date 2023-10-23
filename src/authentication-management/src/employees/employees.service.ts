@@ -1,41 +1,48 @@
-import { Injectable } from "@nestjs/common";
-import { EmployeesRepository } from "./employees.repository";
-import { Employee } from "./schemas/employee.schema";
-import { UpdateEmployeeDto } from "./dto/update-employee.dto";
-import { FilterQuery } from "mongoose";
-import * as bcrypt from 'bcrypt';
+import { Injectable } from '@nestjs/common';
+import { EmployeesRepository } from './employees.repository';
+import { Employee } from '../shared/schemas/employee.schema';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { FilterQuery } from 'mongoose';
+import { hashPassword } from 'src/shared/helper';
+import { CreateEmployeeDto } from './dto/create-employee.dto';
 
-@Injectable({})
+@Injectable()
 export class EmployeesService {
-    constructor(private readonly employeesRepository: EmployeesRepository) {}
+  constructor(private readonly employeesRepository: EmployeesRepository) {}
 
-    async getEmployeeById(id: string): Promise<Employee> {
-        return this.employeesRepository.findOne({ id });
-    }
+  async getEmployeeById(id: string): Promise<Employee> {
+    return this.employeesRepository.findOne({ _id: id });
+  }
 
-    async getEmployeeByPersonalId(personalId: string): Promise<Employee> {
-        return this.employeesRepository.findOne({ personalId });
-    }
+  async getEmployeeByPersonalId(personalId: string): Promise<Employee> {
+    return this.employeesRepository.findOne({ personalId: personalId });
+  }
 
-    async getEmployees(): Promise<Employee[]> {
-        return this.employeesRepository.find({});
-    }
+  async getEmployees(): Promise<Employee[]> {
+    return this.employeesRepository.find({});
+  }
 
-    async createEmployee(personalId: string, password: string): Promise<Employee> {
-        const salt = await bcrypt.genSalt();
-        const hash = await bcrypt.hash(password, salt);
+  async createEmployee(
+    createEmployeeDto: CreateEmployeeDto,
+  ): Promise<Employee> {
+    createEmployeeDto.hash = await hashPassword(createEmployeeDto.hash);
+    return this.employeesRepository.create({ createEmployeeDto });
+  }
 
-        return this.employeesRepository.create({
-            personalId: personalId,
-            hash
-        });
-    }
+  async updateEmployee(
+    id: string,
+    employeeUpdates: UpdateEmployeeDto,
+  ): Promise<Employee> {
+    employeeUpdates.hash = await hashPassword(employeeUpdates.hash);
+    return this.employeesRepository.findOneAndUpdate(
+      { _id: id },
+      employeeUpdates,
+    );
+  }
 
-    async updateEmployee(personalId: string, employeeUpdates: UpdateEmployeeDto): Promise<Employee> {
-        return this.employeesRepository.findOneAndUpdate({ personalId }, employeeUpdates);
-    }
-
-    async deleteEmployees(entityFilterQuery: FilterQuery<Employee>): Promise<boolean> {
-        return this.employeesRepository.deleteMany(entityFilterQuery);
-    }
+  async deleteEmployees(
+    entityFilterQuery: FilterQuery<Employee>,
+  ): Promise<boolean> {
+    return this.employeesRepository.deleteMany(entityFilterQuery);
+  }
 }

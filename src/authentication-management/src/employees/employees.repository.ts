@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Employee, EmployeeDocument } from "./schemas/employee.schema";
-import { Model } from "mongoose";
-import { EntityRepository } from "src/database/entity.repository";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Employee } from '../shared/schemas/employee.schema';
+import { Model } from 'mongoose';
+import { AbstractRepository } from 'src/database/abstract.repository';
 
 @Injectable()
-export class EmployeesRepository extends EntityRepository<EmployeeDocument> {
-    constructor(@InjectModel(Employee.name) employeeModel: Model<EmployeeDocument>) {
-        super(employeeModel);
-    }
+export class EmployeesRepository extends AbstractRepository<Employee> {
+  constructor(@InjectModel(Employee.name) employeeModel: Model<Employee>) {
+    super(employeeModel);
+  }
 }
