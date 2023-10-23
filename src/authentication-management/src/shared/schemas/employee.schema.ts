@@ -103,7 +103,7 @@ export class Employee extends Document {
 
   @Prop({
     required: true,
-    unique: true
+    unique: true,
   })
   iban: string;
 
