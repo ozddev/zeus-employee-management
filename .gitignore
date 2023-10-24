@@ -307,3 +307,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,visualstudiocode,node,svelte,test
+
+# Front-end
+build
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
