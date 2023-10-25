@@ -33,7 +33,9 @@ export class EmployeesService {
     id: string,
     employeeUpdates: UpdateEmployeeDto,
   ): Promise<Employee> {
-    employeeUpdates.hash = await hashPassword(employeeUpdates.hash);
+    if (employeeUpdates.hash) {
+      employeeUpdates.hash = await hashPassword(employeeUpdates.hash);
+    }
     return this.employeesRepository.findOneAndUpdate(
       { _id: id },
       employeeUpdates,

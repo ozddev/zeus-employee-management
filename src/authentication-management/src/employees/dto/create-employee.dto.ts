@@ -1,4 +1,5 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Role } from 'src/auth/enums/role.enum';
 
 export class CreateEmployeeDto {
   @IsString()
@@ -65,4 +66,7 @@ export class CreateEmployeeDto {
 
   @IsString()
   cardHolder: string;
+
+  @IsOptional()
+  roles: Role[];
 }
