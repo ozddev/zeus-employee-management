@@ -1,33 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { EmployeesService } from 'src/employees/employees.service';
 import { comparePasswords } from 'src/shared/helper';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly employeesService: EmployeesService,
+    private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateEmployee(personalId: string, password: string) {
-    const employee =
-      await this.employeesService.getEmployeeByPersonalId(personalId);
-    if (!employee) {
+  async validateUser(personalId: string, password: string) {
+    const user =
+      await this.usersService.getUserByPersonalId(personalId);
+    if (!user) {
       return null;
     }
 
-    const isPasswordMatched = await comparePasswords(password, employee.hash);
+    const isPasswordMatched = await comparePasswords(password, user.hash);
     if (!isPasswordMatched) {
       return null;
     }
 
-    const { hash, ...result } = employee;
+    const { hash, ...result } = user;
     return result;
   }
 
-  async login(employee: any) {
-    const payload = { sub: employee._doc._id, roles: employee._doc.roles };
+  async login(user: any) {
+    const payload = { sub: user._doc.personalId, roles: user._doc.roles };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

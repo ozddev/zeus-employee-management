@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { Employee } from '../shared/schemas/employee.schema';
+import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 

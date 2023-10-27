@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Employee, EmployeeSchema } from '../shared/schemas/employee.schema';
+import { Employee, EmployeeSchema } from './schemas/employee.schema';
 import { EmployeesController } from './employees.controller';
 import { EmployeesService } from './employees.service';
 import { EmployeesRepository } from './employees.repository';
