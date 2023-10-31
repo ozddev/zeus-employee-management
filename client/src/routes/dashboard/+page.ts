@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import type { PageLoad } from './dashboard/$types';
+import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
 	let accessToken = '';

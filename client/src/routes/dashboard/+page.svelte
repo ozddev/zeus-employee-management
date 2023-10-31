@@ -1,1 +1,8 @@
-<h1>here goes the dashboard with a minimal logged in user data</h1>
+<script lang="ts">
+	import type { PageData } from './$types';
+	import Card from '$lib/card/Card.svelte';
+
+	export let data: PageData;
+</script>
+
+<Card title={data.firstName} clientData={data} />
