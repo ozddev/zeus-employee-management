@@ -2,6 +2,16 @@
 	import { Field, Form } from '$lib/form';
 	import { Button } from '$lib/button';
 	import type { ActionData } from './$types';
+	import { goto } from '$app/navigation';
+
+	export let form: ActionData;
+
+	//todo: handle in case wrong creds
+	$: if (form) {
+		const accessToken = form as string;
+		localStorage.setItem('accessToken', accessToken);
+		goto('/dashboard');
+	}
 </script>
 
 <div>
@@ -22,10 +32,10 @@
 					</h1>
 					<Form>
 						<Field
-							name="email"
-							type="email"
-							text="Your email"
-							placeholder="name@company.com"
+							name="personalId"
+							type="text"
+							text="Your personal Id"
+							placeholder="Personal ID"
 							required={true}
 						/>
 						<Field
