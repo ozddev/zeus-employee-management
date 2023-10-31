@@ -6,19 +6,40 @@ import {
   Param,
   Patch,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/enums/role.enum';
 
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
-  @Get(':id')
-  async getEmployee(@Param('id') id: string): Promise<Employee> {
-    return this.employeesService.getEmployeeById(id);
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return req.user;
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Get('role')
+  async checkRole() {
+    return 'Role is working';
+  }
+
+  @Get(':personalId')
+  async getEmployee(
+    @Param('personalId') personalId: string,
+  ): Promise<Employee> {
+    return this.employeesService.getEmployeeByPersonalId(personalId);
   }
 
   @Get()

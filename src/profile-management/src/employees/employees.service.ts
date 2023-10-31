@@ -4,6 +4,7 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeesRepository } from './employees.repository';
 import { Employee } from './schemas/employee.schema';
 import { FilterQuery } from 'mongoose';
+import { hashPassword } from 'src/employees/helper';
 
 @Injectable()
 export class EmployeesService {
@@ -12,6 +13,7 @@ export class EmployeesService {
   async createEmployee(
     createEmployeeDto: CreateEmployeeDto,
   ): Promise<Employee> {
+    createEmployeeDto.hash = await hashPassword(createEmployeeDto.hash);
     return this.employeesRepository.create({ createEmployeeDto });
   }
 
@@ -29,11 +31,14 @@ export class EmployeesService {
 
   async updateEmployee(
     id: string,
-    employeeUpdates: UpdateEmployeeDto,
+    updateEmployeeDto: UpdateEmployeeDto,
   ): Promise<Employee> {
+    if (updateEmployeeDto.hash) {
+      updateEmployeeDto.hash = await hashPassword(updateEmployeeDto.hash);
+    }
     return this.employeesRepository.findOneAndUpdate(
       { _id: id },
-      employeeUpdates,
+      updateEmployeeDto,
     );
   }
 
