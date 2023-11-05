@@ -13,8 +13,8 @@ import { EmployeesService } from './employees.service';
 import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
+import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../auth/enums/role.enum';
 
@@ -27,13 +27,6 @@ export class EmployeesController {
   @Get('profile')
   async getProfile(@Request() req) {
     return req.user;
-  }
-
-  @UseGuards(RolesGuard)
-  @Roles(Role.Admin)
-  @Get('role')
-  async checkRole() {
-    return 'Role is working';
   }
 
   @Get(':personalId')
@@ -65,6 +58,6 @@ export class EmployeesController {
 
   @Delete()
   async deleteEmployees() {
-    this.employeesService.deleteEmployees({});
+    this.employeesService.deleteEmployees();
   }
 }

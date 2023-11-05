@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { Role } from '../../auth/enums/role.enum';
+import { Role } from '@auth/enums/role.enum';
 
 export class CreateEmployeeDto {
   @IsString()

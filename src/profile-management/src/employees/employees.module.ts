@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Employee, EmployeeSchema } from './schemas/employee.schema';
 import { EmployeesController } from './employees.controller';
@@ -7,7 +7,8 @@ import { EmployeesRepository } from './employees.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from '../auth/strategies/jwt.strategy';
+import { JwtStrategy } from '@auth/strategies/jwt.strategy';
+import { checkObjectIdIsValid } from '@middlewares/validation.middleware';
 
 @Module({
   imports: [
@@ -31,4 +32,10 @@ import { JwtStrategy } from '../auth/strategies/jwt.strategy';
   providers: [EmployeesService, EmployeesRepository, JwtStrategy],
   exports: [EmployeesRepository],
 })
-export class EmployeesModule {}
+export class EmployeesModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(checkObjectIdIsValid)
+      .forRoutes({ path: 'employees/*', method: RequestMethod.GET });
+  }
+}

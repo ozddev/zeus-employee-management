@@ -18,7 +18,7 @@ export class EmployeesService {
   }
 
   async getEmployees(): Promise<Employee[]> {
-    return this.employeesRepository.find({});
+    return this.employeesRepository.find();
   }
 
   async getEmployeeById(id: string): Promise<Employee> {
@@ -43,7 +43,7 @@ export class EmployeesService {
   }
 
   async deleteEmployees(
-    entityFilterQuery: FilterQuery<Employee>,
+    entityFilterQuery: FilterQuery<Employee> = {},
   ): Promise<boolean> {
     return this.employeesRepository.deleteMany(entityFilterQuery);
   }
