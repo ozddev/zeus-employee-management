@@ -7,9 +7,9 @@
 	export let form: ActionData;
 
 	//todo: handle in case wrong creds
-	$: if (form) {
-		const accessToken = form as string;
-		localStorage.setItem('accessToken', accessToken);
+	$: if (form && !form.incorrect) {
+		const accessToken = form as { accessToken: string };
+		localStorage.setItem('accessToken', accessToken.accessToken);
 		goto('/dashboard');
 	}
 </script>
@@ -42,6 +42,14 @@
 				placeholder="••••••••"
 				required={true}
 			/>
+			{#if form?.incorrect}
+				<div
+					class="p-4 mb-4 text-sm text-center text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+					role="alert"
+				>
+					<span class="font-medium">One of the submitted fields was incorrect!</span>
+				</div>
+			{/if}
 			<Button type="submit" text="Sign In" />
 		</Form>
 	</div>
