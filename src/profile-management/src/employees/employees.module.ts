@@ -36,6 +36,10 @@ export class EmployeesModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(checkObjectIdIsValid)
-      .forRoutes({ path: 'employees/*', method: RequestMethod.GET });
+      .exclude(
+        { path: 'employees', method: RequestMethod.ALL },
+        { path: 'employees/*', method: RequestMethod.ALL }
+      )
+      .forRoutes(EmployeesController);
   }
 }
