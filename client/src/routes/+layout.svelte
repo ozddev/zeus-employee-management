@@ -3,11 +3,12 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import '../app.css';
+	import { MAIN } from '../shared/routes';
 
 	function logOut() {
 		if (browser) {
 			localStorage.removeItem('accessToken');
-			goto('/');
+			goto(MAIN);
 		}
 	}
 </script>

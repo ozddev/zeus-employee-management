@@ -1,14 +1,13 @@
-import { browser } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
-import { ACCESS_TOKEN } from '../../shared/constants';
+import { getAccessToken } from '../../shared/helper';
 import type { PageLoad } from './$types';
+import { MAIN } from '../../shared/routes';
 
 export const load = (async ({ fetch }) => {
-	let accessToken = '';
+	const accessToken = getAccessToken();
 
-	if (browser) {
-		accessToken = localStorage.getItem(ACCESS_TOKEN) ?? '';
-		throw redirect(303, '/');
+	if (!accessToken) {
+		throw redirect(303, MAIN);
 	}
 
 	const response = await fetch('http://localhost:7777/employees/652d26915b600af263e46a65', {

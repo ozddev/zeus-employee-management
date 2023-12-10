@@ -3,6 +3,7 @@
 	import { Button } from '$lib/button';
 	import type { ActionData } from './$types';
 	import { goto } from '$app/navigation';
+	import { DASHBOARD } from '../shared/routes';
 
 	export let form: ActionData;
 
@@ -10,7 +11,7 @@
 	$: if (form && !form.incorrect) {
 		const accessToken = form as { accessToken: string };
 		localStorage.setItem('accessToken', accessToken.accessToken);
-		goto('/dashboard');
+		goto(DASHBOARD);
 	}
 </script>
 
