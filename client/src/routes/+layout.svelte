@@ -1,8 +1,18 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import '../app.css';
+
+	function logOut() {
+		if (browser) {
+			localStorage.removeItem('accessToken');
+			goto('/');
+		}
+	}
 </script>
 
+<!-- This is the Nav Bar -->
 <main>
 	{#if $page.url.pathname !== '/'}
 		<nav class="bg-white border-gray-200 dark:bg-gray-900">
@@ -46,6 +56,13 @@
 								href="/dashboard"
 								class="block py-2 pl-3 pr-4 text-white rounded md:bg-transparent md:p-0 dark:text-white"
 								>Dashboard</a
+							>
+						</li>
+						<li>
+							<button
+								type="button"
+								class="block py-2 pl-3 pr-4 text-orange-700 rounded md:bg-transparent md:p-0 dark:text-orange-700"
+								on:click={logOut}>Log Out</button
 							>
 						</li>
 					</ul>
