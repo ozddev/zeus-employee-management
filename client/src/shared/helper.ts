@@ -2,12 +2,7 @@ import { browser } from '$app/environment';
 import { ACCESS_TOKEN } from './constants';
 
 export function hasAccessToken(): boolean {
-	//has to be done with if otherwise the browser will be false
-	if (browser) {
-		return localStorage.getItem(ACCESS_TOKEN) !== null;
-	}
-
-	return false;
+	return getAccessToken() !== null;
 }
 
 export function getAccessToken(): string | null {
