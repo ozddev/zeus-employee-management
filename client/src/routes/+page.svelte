@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { DASHBOARD } from '../shared/routes';
 	import { ACCESS_TOKEN } from '../shared/constants';
-	import { hasAccessToken } from '../shared/helper';
+	import { hasAccessToken } from '../shared/access_token/access.token.helper';
 
 	export let form: ActionData;
 

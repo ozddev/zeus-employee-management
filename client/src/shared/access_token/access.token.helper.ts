@@ -1,5 +1,7 @@
 import { browser } from '$app/environment';
-import { ACCESS_TOKEN } from './constants';
+import { jwtDecode } from 'jwt-decode';
+import { ACCESS_TOKEN } from '../constants';
+import type { AccessToken } from './types';
 
 export function hasAccessToken(): boolean {
 	return getAccessToken() !== null;
@@ -11,4 +13,9 @@ export function getAccessToken(): string | null {
 	}
 
 	return null;
+}
+
+export function getUserSub(jwtToken: string) {
+	const token: AccessToken = jwtDecode(jwtToken);
+	return token.sub;
 }

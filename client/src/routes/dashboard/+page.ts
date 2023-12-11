@@ -1,20 +1,24 @@
 import { redirect } from '@sveltejs/kit';
-import { getAccessToken } from '../../shared/helper';
+import { getAccessToken, getUserSub } from '../../shared/access_token/access.token.helper';
 import type { PageLoad } from './$types';
 import { MAIN } from '../../shared/routes';
-import { PUBLIC_SERVER_BASE_URL } from '$env/static/public';
+import { PUBLIC_USER_ACTION_BASE_URL } from '$env/static/public';
 
 export const load = (async ({ fetch }) => {
 	const accessToken = getAccessToken();
-	//console.log(SERVER_BASE_URL);
+
 	if (!accessToken) {
 		throw redirect(303, MAIN);
 	}
 
-	const response = await fetch(`${PUBLIC_SERVER_BASE_URL}employees/652d26915b600af263e46a65`, {
+	const sub = getUserSub(accessToken);
+
+	const response = await fetch(`${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`, {
 		headers: {
-			Authorization: `Bearer ${accessToken}`,
-			mode: 'cors'
+			Authorization: `Bearer ${accessToken}`
+			// mode: 'cors',
+			// Accept: '*/*',
+			// 'Access-Control-Allow-Origin': '*'
 		}
 	});
 
