@@ -15,7 +15,7 @@ export function getAccessToken(): string | null {
 	return null;
 }
 
-export function getUserSub(jwtToken: string) {
+export function getUserSub(jwtToken: string): string {
 	const token: AccessToken = jwtDecode(jwtToken);
 	return token.sub;
 }
