@@ -13,14 +13,15 @@ export const load = (async ({ fetch }) => {
 
 	const sub = getUserSub(accessToken);
 
-	const response = await fetch(`${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`, {
-		headers: {
-			Authorization: `Bearer ${accessToken}`
-			// mode: 'cors',
-			// Accept: '*/*',
-			// 'Access-Control-Allow-Origin': '*'
+	const response = await fetch(
+		//remove the heroku url after solving the issue on the backend
+		`https://cors-anywhere.herokuapp.com/${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`,
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
 		}
-	});
+	);
 
 	return await response.json();
 }) satisfies PageLoad;
