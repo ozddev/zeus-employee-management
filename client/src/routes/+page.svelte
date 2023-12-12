@@ -3,14 +3,21 @@
 	import { Button } from '$lib/button';
 	import type { ActionData } from './$types';
 	import { goto } from '$app/navigation';
+	import { DASHBOARD } from '../shared/routes';
+	import { ACCESS_TOKEN } from '../shared/constants';
+	import { hasAccessToken } from '../shared/access_token/access.token.helper';
 
 	export let form: ActionData;
 
-	//todo: handle in case wrong creds
+	//TODO: move the dashboard and main page logic into a component and make render the /dashboard on /
+	if (hasAccessToken()) {
+		goto(DASHBOARD);
+	}
+
 	$: if (form && !form.incorrect) {
 		const accessToken = form as { accessToken: string };
-		localStorage.setItem('accessToken', accessToken.accessToken);
-		goto('/dashboard');
+		localStorage.setItem(ACCESS_TOKEN, accessToken.accessToken);
+		goto(DASHBOARD);
 	}
 </script>
 

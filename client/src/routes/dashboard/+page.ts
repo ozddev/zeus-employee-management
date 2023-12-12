@@ -1,19 +1,27 @@
-import { browser } from '$app/environment';
+import { redirect } from '@sveltejs/kit';
+import { getAccessToken, getUserSub } from '../../shared/access_token/access.token.helper';
 import type { PageLoad } from './$types';
+import { MAIN } from '../../shared/routes';
+import { PUBLIC_USER_ACTION_BASE_URL } from '$env/static/public';
 
 export const load = (async ({ fetch }) => {
-	let accessToken = '';
+	const accessToken = getAccessToken();
 
-	if (browser) {
-		accessToken = localStorage.getItem('accessToken') ?? '';
+	if (!accessToken) {
+		throw redirect(303, MAIN);
 	}
 
-	const response = await fetch('http://localhost:7777/employees/652d26915b600af263e46a65', {
-		headers: {
-			Authorization: `Bearer ${accessToken}`,
-			mode: 'cors'
+	const sub = getUserSub(accessToken);
+
+	const response = await fetch(
+		//remove the heroku url after solving the issue on the backend
+		`https://cors-anywhere.herokuapp.com/${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`,
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
 		}
-	});
+	);
 
 	return await response.json();
 }) satisfies PageLoad;
