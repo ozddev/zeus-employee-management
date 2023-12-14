@@ -15,7 +15,7 @@ export const load = (async ({ fetch }) => {
 
 	const response = await fetch(
 		//remove the heroku url after solving the issue on the backend
-		`https://cors-anywhere.herokuapp.com/${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`,
+		`${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`,
 		{
 			headers: {
 				Authorization: `Bearer ${accessToken}`
