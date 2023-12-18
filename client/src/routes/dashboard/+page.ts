@@ -13,15 +13,11 @@ export const load = (async ({ fetch }) => {
 
 	const sub = getUserSub(accessToken);
 
-	const response = await fetch(
-		//remove the heroku url after solving the issue on the backend
-		`${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`,
-		{
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
+	const response = await fetch(`${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`
 		}
-	);
+	});
 
 	return await response.json();
 }) satisfies PageLoad;
