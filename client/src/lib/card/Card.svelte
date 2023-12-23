@@ -30,7 +30,7 @@
 			]
 		};
 
-		pdfMaker.createPdf(pdfContent).download();
+		pdfMaker.createPdf(pdfContent).download('fluturas.pdf');
 	}
 	//END TODO
 </script>
