@@ -2,7 +2,7 @@
 	import type { Client } from '../../shared/access_token/types';
 	//TODO: USE NPM ON SERVER SIDE
 	import pdfMake from 'pdfmake/build/pdfmake';
-	import pdfFonts from 'pdfmake/build/vfs_fonts';
+	import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 
 	export let title: string;
 	export let clientData: Client;
