@@ -3,8 +3,9 @@ import { getAccessToken, getUserSub } from '../../shared/access_token/access.tok
 import type { PageLoad } from './$types';
 import { MAIN } from '../../shared/routes';
 import { PUBLIC_USER_ACTION_BASE_URL } from '$env/static/public';
+import type { Client } from '../../shared/access_token/types';
 
-export const load = (async ({ fetch }) => {
+export const load = (async ({ fetch }): Promise<Client> => {
 	const accessToken = getAccessToken();
 
 	if (!accessToken) {
