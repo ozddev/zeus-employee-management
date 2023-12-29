@@ -1,33 +1,47 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { EmployeesService } from 'src/employees/employees.service';
-import { comparePasswords } from 'src/shared/helper';
+import { catchError, firstValueFrom } from 'rxjs';
+import { comparePasswords } from 'src/auth/helper';
+import { User } from './dto/incoming/user.dto';
+import { AxiosError } from 'axios';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly employeesService: EmployeesService,
-    private readonly jwtService: JwtService,
-  ) {}
+  private readonly EMPLOYEES_URL: string;
 
-  async validateEmployee(personalId: string, password: string) {
-    const employee =
-      await this.employeesService.getEmployeeByPersonalId(personalId);
-    if (!employee) {
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly jwtService: JwtService,
+  ) {
+    this.EMPLOYEES_URL = process.env.EMPLOYEES_URL;
+  }
+
+  async validateUser(personalId: string, password: string) {
+    const { data } = await firstValueFrom(
+      this.httpService
+        .get<User>(this.EMPLOYEES_URL + '/employees/' + personalId)
+        .pipe(
+          catchError((error: AxiosError) => {
+            throw 'An error happened! ' + error;
+          }),
+        ),
+    );
+    if (!data) {
       return null;
     }
 
-    const isPasswordMatched = await comparePasswords(password, employee.hash);
+    const isPasswordMatched = await comparePasswords(password, data.hash);
     if (!isPasswordMatched) {
       return null;
     }
 
-    const { hash, ...result } = employee;
+    const { hash, ...result } = data;
     return result;
   }
 
-  async login(employee: any) {
-    const payload = { sub: employee._doc._id, roles: employee._doc.roles };
+  async login(user: any) {
+    const payload = { sub: user.personalId, roles: user.roles };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

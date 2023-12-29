@@ -1,7 +1,13 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { Role } from 'src/auth/enums/role.enum';
+import { Role } from '@employees/roles/role.enum';
 
-export class UpdateEmployeeDto {
+export class CreateEmployeeDto {
+  @IsString()
+  personalId: string;
+
+  @IsString()
+  hash: string;
+
   @IsString()
   @IsOptional()
   firstName: string;
@@ -13,10 +19,6 @@ export class UpdateEmployeeDto {
   @IsString()
   @IsOptional()
   email: string;
-
-  @IsString()
-  @IsOptional()
-  hash: string;
 
   @IsString()
   @IsOptional()

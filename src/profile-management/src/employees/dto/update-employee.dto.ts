@@ -1,11 +1,19 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
-import { Role } from 'src/auth/enums/role.enum';
+import { Role } from '@employees/roles/role.enum';
 
-export class CreateEmployeeDto {
+export class UpdateEmployeeDto {
   @IsString()
+  personalId: string;
+
+  @IsString()
+  hash: string;
+
+  @IsString()
+  @IsOptional()
   firstName: string;
 
   @IsString()
+  @IsOptional()
   lastName: string;
 
   @IsString()
@@ -13,27 +21,31 @@ export class CreateEmployeeDto {
   email: string;
 
   @IsString()
-  hash: string;
-
-  @IsString()
+  @IsOptional()
   phoneNumber: string;
 
   @IsString()
+  @IsOptional()
   address: string;
 
   @IsNumber()
+  @IsOptional()
   zipCode: number;
 
   @IsString()
+  @IsOptional()
   city: string;
 
   @IsString()
+  @IsOptional()
   dateOfBirth: string;
 
   @IsString()
+  @IsOptional()
   placeOfBirth: string;
 
   @IsString()
+  @IsOptional()
   gender: string;
 
   @IsString()
@@ -49,15 +61,19 @@ export class CreateEmployeeDto {
   birthName: string;
 
   @IsString()
+  @IsOptional()
   socialNumber: string;
 
   @IsString()
+  @IsOptional()
   idNumber: string;
 
   @IsString()
+  @IsOptional()
   bankName: string;
 
   @IsString()
+  @IsOptional()
   iban: string;
 
   @IsString()
@@ -65,6 +81,7 @@ export class CreateEmployeeDto {
   bic: string;
 
   @IsString()
+  @IsOptional()
   cardHolder: string;
 
   @IsOptional()

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Role } from 'src/auth/enums/role.enum';
+import { Role } from '@employees/roles/role.enum';
 
 @Schema({
   timestamps: true,
@@ -14,10 +14,17 @@ export class Employee extends Document {
   @Prop({
     required: true,
   })
+  hash: string;
+
+  @Prop({
+    required: false,
+    default: null,
+  })
   firstName: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   lastName: string;
 
@@ -29,43 +36,45 @@ export class Employee extends Document {
   email: string;
 
   @Prop({
-    required: true,
-  })
-  hash: string;
-
-  @Prop({
-    required: true,
+    required: false,
+    default: null,
     unique: true,
   })
   phoneNumber: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   address: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   zipCode: number;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   city: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   dateOfBirth: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   placeOfBirth: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   gender: string;
 
@@ -88,22 +97,26 @@ export class Employee extends Document {
   birthName: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   socialNumber: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   idNumber: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   bankName: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
     unique: true,
   })
   iban: string;
@@ -115,7 +128,8 @@ export class Employee extends Document {
   bic: string;
 
   @Prop({
-    required: true,
+    required: false,
+    default: null,
   })
   cardHolder: string;
 
