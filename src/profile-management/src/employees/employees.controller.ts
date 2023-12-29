@@ -6,24 +6,17 @@ import {
   Param,
   Patch,
   Delete,
-  UseGuards,
   Request,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
-import { RolesGuard } from '@auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { Role } from '../auth/enums/role.enum';
 
 @Controller('employees')
-// @UseGuards(JwtAuthGuard)
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('profile')
   async getProfile(@Request() req) {
     return req.user;

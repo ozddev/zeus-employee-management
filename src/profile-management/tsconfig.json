@@ -18,7 +18,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@auth/*": ["src/auth/*"],
       "@database/*": ["src/database/*"],
       "@employees/*": ["src/employees/*"],
       "@middlewares/*": ["src/middlewares/*"]

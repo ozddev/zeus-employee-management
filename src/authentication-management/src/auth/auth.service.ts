@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { catchError, firstValueFrom } from 'rxjs';
 import { comparePasswords } from 'src/auth/helper';
