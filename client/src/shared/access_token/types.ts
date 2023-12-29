@@ -3,3 +3,4 @@ export enum Role {
 	ADMIN = 'admin',
 	USER = 'user'
 }
+export type Client = { firstName: string; lastName: string };

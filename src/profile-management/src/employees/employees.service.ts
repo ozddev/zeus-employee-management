@@ -1,4 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { EmployeesRepository } from './employees.repository';
+import { Employee } from '../shared/schemas/employee.schema';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { FilterQuery, isObjectIdOrHexString } from 'mongoose';
+import { hashPassword } from 'src/shared/helper';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeesRepository } from './employees.repository';
@@ -22,7 +27,11 @@ export class EmployeesService {
   }
 
   async getEmployeeById(id: string): Promise<Employee> {
-    return this.employeesRepository.findOne({ _id: id });
+    if (isObjectIdOrHexString(id)) {
+      return this.employeesRepository.findOne({ _id: id });
+    } else {
+      return this.employeesRepository.findOne({ personalId: id });
+    }
   }
 
   async getEmployeeByPersonalId(personalId: string): Promise<Employee> {

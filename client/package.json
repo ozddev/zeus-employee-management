@@ -33,7 +33,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@types/pdfmake": "^0.2.8",
 		"jwt-decode": "^4.0.0",
+		"pdfmake": "^0.2.8",
 		"uuid": "^9.0.1"
 	}
 }
