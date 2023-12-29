@@ -6,9 +6,10 @@ import {
   Param,
   Patch,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { Employee } from '../shared/schemas/employee.schema';
+import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
@@ -16,9 +17,16 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
-  @Get(':id')
-  async getEmployee(@Param('id') id: string): Promise<Employee> {
-    return this.employeesService.getEmployeeById(id);
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return req.user;
+  }
+
+  @Get(':personalId')
+  async getEmployee(
+    @Param('personalId') personalId: string,
+  ): Promise<Employee> {
+    return this.employeesService.getEmployeeByPersonalId(personalId);
   }
 
   @Get()
@@ -43,6 +51,6 @@ export class EmployeesController {
 
   @Delete()
   async deleteEmployees() {
-    this.employeesService.deleteEmployees({});
+    this.employeesService.deleteEmployees();
   }
 }

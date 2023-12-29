@@ -7,7 +7,7 @@ export abstract class AbstractRepository<T extends Document> {
     return this.entityModel.findOne(entityFilterQuery);
   }
 
-  async find(entityFilterQuery: FilterQuery<T>): Promise<T[] | null> {
+  async find(entityFilterQuery: FilterQuery<T> = {}): Promise<T[] | null> {
     return this.entityModel.find(entityFilterQuery);
   }
 
