@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { Client } from '../../shared/access_token/types';
-	//TODO: USE NPM ON SERVER SIDE
-	import pdfMake from 'pdfmake/build/pdfmake';
-	import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+	import { jsPDF } from 'jspdf';
 
 	export let title: string;
 	export let clientData: Client;
@@ -10,27 +8,15 @@
 	const clientDataValues = Object.values(clientData);
 	const clientObjectKeys = Object.keys(clientData);
 
-	//TODO: THIS IS TEMPORARY THIS HAS TO BE GENERATED ON THE FRONT END'S SERVER SIDE
-	const pdfMaker = pdfMake;
-	pdfMaker.vfs = pdfFonts.pdfMake.vfs;
-
+	//MOVE IT TO SERVER SIDE LATER ON
 	function downloadPdf() {
-		const pdfContent = {
-			styples: {
-				header: {
-					fontSize: 18,
-					bold: true
-				}
-			},
-			content: [
-				{
-					text: `Fluturas for ${clientData['firstName']} ${clientData['lastName']}`,
-					style: 'header'
-				}
-			]
-		};
-
-		pdfMaker.createPdf(pdfContent).download('fluturas.pdf');
+		const doc = new jsPDF({
+			orientation: 'landscape',
+			unit: 'in',
+			format: [4, 2]
+		});
+		doc.text(`Fluturas for ${clientData['firstName']} ${clientData['lastName']}`, 1, 1);
+		doc.save('fluturas.pdf');
 	}
 	//END TODO
 </script>
