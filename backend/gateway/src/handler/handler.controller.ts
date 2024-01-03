@@ -8,14 +8,14 @@ import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 export class HandlerController {
   constructor(private readonly handlerService: HandlerService) {}
 
-  @Get(':personalId')
+  @Get('employees/:personalId')
   async getEmployee(
     @Param('personalId') personalId: string,
   ): Promise<Employee> {
     return this.handlerService.getEmployeeByPersonalId(personalId);
   }
 
-  @Get()
+  @Get('employees')
   async getEmployees(): Promise<Employee[]> {
     return this.handlerService.getEmployees();
   }
