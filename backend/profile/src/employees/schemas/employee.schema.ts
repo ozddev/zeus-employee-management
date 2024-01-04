@@ -82,7 +82,7 @@ export class Employee extends Document {
     required: false,
     default: null,
   })
-  maritalSatus: string;
+  maritalStatus: string;
 
   @Prop({
     required: false,

@@ -50,7 +50,7 @@ export class UpdateEmployeeDto {
 
   @IsString()
   @IsOptional()
-  maritalSatus: string;
+  maritalStatus: string;
 
   @IsString()
   @IsOptional()
