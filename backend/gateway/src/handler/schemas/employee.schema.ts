@@ -136,6 +136,7 @@ export class Employee extends Document {
   @Prop({
     required: false,
     default: null,
+    enum: Role
   })
   roles: Role[];
 }
