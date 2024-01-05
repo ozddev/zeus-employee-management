@@ -19,5 +19,4 @@ export class HandlerController {
   async getEmployees(): Promise<Employee[]> {
     return this.handlerService.getEmployees();
   }
-
 }

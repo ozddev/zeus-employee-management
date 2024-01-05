@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import { getAccessToken, getUserSub } from '../../shared/access_token/access.token.helper';
 import type { PageLoad } from './$types';
 import { MAIN } from '../../shared/routes';
-import { PUBLIC_USER_ACTION_BASE_URL } from '$env/static/public';
+import { PUBLIC_GATEWAY_BASE_URL } from '$env/static/public';
 import type { Client } from '../../shared/access_token/types';
 
 export const load = (async ({ fetch }): Promise<Client> => {
@@ -14,7 +14,7 @@ export const load = (async ({ fetch }): Promise<Client> => {
 
 	const sub = getUserSub(accessToken);
 
-	const response = await fetch(`${PUBLIC_USER_ACTION_BASE_URL}employees/${sub}`, {
+	const response = await fetch(`${PUBLIC_GATEWAY_BASE_URL}api/employees/${sub}`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`
 		}
