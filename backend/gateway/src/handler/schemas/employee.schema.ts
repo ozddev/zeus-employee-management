@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { Role } from '@employees/roles/role.enum';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import { Role } from "@auth/enums/role.enum";
 
 @Schema({
   timestamps: true,
@@ -136,6 +136,7 @@ export class Employee extends Document {
   @Prop({
     required: false,
     default: null,
+    enum: Role,
   })
   roles: Role[];
 }

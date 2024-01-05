@@ -50,7 +50,7 @@ export class CreateEmployeeDto {
 
   @IsString()
   @IsOptional()
-  maritalSatus: string;
+  maritalStatus: string;
 
   @IsString()
   @IsOptional()

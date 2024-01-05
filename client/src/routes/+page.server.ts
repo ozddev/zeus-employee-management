@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { PUBLIC_AUTH_BASE_URL } from '$env/static/public';
+import { PUBLIC_GATEWAY_BASE_URL } from '$env/static/public';
 
 export const actions: Actions = {
 	default: async ({ request }) => {
@@ -9,7 +9,7 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const personalId = formData.get('personalId');
 
-		const response = await fetch(`${PUBLIC_AUTH_BASE_URL}auth/login`, {
+		const response = await fetch(`${PUBLIC_GATEWAY_BASE_URL}auth/login`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
