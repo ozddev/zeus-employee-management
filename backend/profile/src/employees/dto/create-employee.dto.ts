@@ -1,89 +1,70 @@
-import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { Role } from '@employees/roles/role.enum';
+import { AutoMap } from '@automapper/classes';
 
 export class CreateEmployeeDto {
-  @IsString()
+  @AutoMap()
   personalId: string;
 
-  @IsString()
+  @AutoMap()
   hash: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   firstName: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   lastName: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   email: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   phoneNumber: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   address: string;
 
-  @IsNumber()
-  @IsOptional()
+  @AutoMap()
   zipCode: number;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   city: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   dateOfBirth: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   placeOfBirth: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   gender: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   maritalStatus: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   nationality: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   birthName: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   socialNumber: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   idNumber: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   bankName: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   iban: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   bic: string;
 
-  @IsString()
-  @IsOptional()
+  @AutoMap()
   cardHolder: string;
 
-  @IsOptional()
+  @AutoMap()
   roles: Role[];
 }
