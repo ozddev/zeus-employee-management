@@ -11,6 +11,7 @@ import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { ReadEmployeeDto } from './dto/read-employee.dto';
+import { ReadUserDto } from './dto/user/read-user.dto';
 
 @Controller('employees')
 export class EmployeesController {
@@ -47,4 +48,12 @@ export class EmployeesController {
   async deleteEmployees() {
     this.employeesService.deleteEmployees();
   }
+
+  @Get('get-credentials/:personalId')
+  async getCredentials(
+    @Param('personalId') personalId: string,
+  ): Promise<ReadUserDto> {
+    return this.employeesService.getEmployeeCredentialsByPersonalId(personalId);
+  }
+
 }

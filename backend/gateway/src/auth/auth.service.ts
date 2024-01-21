@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { catchError, firstValueFrom } from 'rxjs';
 import { comparePasswords } from 'src/auth/helper';
-import { User } from './dto/incoming/user.dto';
+import { User } from './dto/user.dto';
 import { AxiosError } from 'axios';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AuthService {
   async validateUser(personalId: string, password: string) {
     const { data } = await firstValueFrom(
       this.httpService
-        .get<User>(this.EMPLOYEES_URL + '/employees/' + personalId)
+        .get<User>(this.EMPLOYEES_URL + '/employees/get-credentials/' + personalId)
         .pipe(
           catchError((error: AxiosError) => {
             throw 'An error happened! ' + error;

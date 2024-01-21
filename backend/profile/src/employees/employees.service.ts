@@ -8,6 +8,7 @@ import { hashPassword } from 'src/employees/helper';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
 import { ReadEmployeeDto } from './dto/read-employee.dto';
+import { ReadUserDto } from './dto/user/read-user.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -55,6 +56,16 @@ export class EmployeesService {
       await this.employeesRepository.findOne({ personalId: personalId }),
       Employee,
       ReadEmployeeDto,
+    );
+  }
+
+  async getEmployeeCredentialsByPersonalId(
+    personalId: string,
+  ): Promise<ReadUserDto | undefined> {
+    return this.classMapper.mapAsync(
+      await this.employeesRepository.findOne({ personalId: personalId }),
+      Employee,
+      ReadUserDto,
     );
   }
 
