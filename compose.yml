@@ -35,4 +35,4 @@ services:
       - 8010:8010
     environment:
       PORT: 8010
-      MONGODB_URI: mongodb+srv://ozddev:GzNZ3FzNgy8hNmMi@zemcluster1.dz4rzdu.mongodb.net/employee?retryWrites=true&w=majority
+      MONGODB_URI: mongodb://localhost:27017
