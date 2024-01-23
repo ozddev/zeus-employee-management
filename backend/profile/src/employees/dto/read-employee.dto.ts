@@ -1,12 +1,9 @@
-import { Role } from '@employees/roles/role.enum';
 import { AutoMap } from '@automapper/classes';
+import { Role } from '@employees/roles/role.enum';
 
-export class UpdateEmployeeDto {
+export class ReadEmployeeDto {
   @AutoMap()
   personalId: string;
-
-  @AutoMap()
-  hash: string;
 
   @AutoMap()
   firstName: string;

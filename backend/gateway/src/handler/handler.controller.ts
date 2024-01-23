@@ -1,6 +1,5 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { HandlerService } from './handler.service';
-import { Employee } from './schemas/employee.schema';
 import { JwtAuthGuard } from '@auth/guards/jwt-auth.guard';
 
 @Controller('api')
@@ -11,12 +10,12 @@ export class HandlerController {
   @Get('employees/:personalId')
   async getEmployee(
     @Param('personalId') personalId: string,
-  ): Promise<Employee> {
+  ): Promise<any> {
     return this.handlerService.getEmployeeByPersonalId(personalId);
   }
 
   @Get('employees')
-  async getEmployees(): Promise<Employee[]> {
+  async getEmployees(): Promise<any> {
     return this.handlerService.getEmployees();
   }
 }

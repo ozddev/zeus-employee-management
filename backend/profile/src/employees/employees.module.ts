@@ -6,6 +6,9 @@ import { EmployeesService } from './employees.service';
 import { EmployeesRepository } from './employees.repository';
 import { PassportModule } from '@nestjs/passport';
 import { checkObjectIdIsValid } from '@middlewares/validation.middleware';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { EmployeeProfile } from './profile/employee.profile';
 
 @Module({
   imports: [
@@ -13,9 +16,12 @@ import { checkObjectIdIsValid } from '@middlewares/validation.middleware';
       { name: Employee.name, schema: EmployeeSchema },
     ]),
     PassportModule,
+    AutomapperModule.forRoot({
+      strategyInitializer: classes()
+    })
   ],
   controllers: [EmployeesController],
-  providers: [EmployeesService, EmployeesRepository],
+  providers: [EmployeesService, EmployeesRepository, EmployeeProfile],
   exports: [EmployeesRepository],
 })
 export class EmployeesModule implements NestModule {

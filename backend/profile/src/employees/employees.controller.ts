@@ -6,38 +6,33 @@ import {
   Param,
   Patch,
   Delete,
-  Request,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { ReadEmployeeDto } from './dto/read-employee.dto';
+import { ReadUserDto } from './dto/user/read-user.dto';
 
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
-  @Get('profile')
-  async getProfile(@Request() req) {
-    return req.user;
-  }
-
   @Get(':personalId')
   async getEmployee(
     @Param('personalId') personalId: string,
-  ): Promise<Employee> {
+  ): Promise<ReadEmployeeDto> {
     return this.employeesService.getEmployeeByPersonalId(personalId);
   }
 
   @Get()
-  async getEmployees(): Promise<Employee[]> {
+  async getEmployees(): Promise<ReadEmployeeDto[]> {
     return this.employeesService.getEmployees();
   }
 
   @Post()
   async createEmployee(
     @Body() createEmployeeDto: CreateEmployeeDto,
-  ): Promise<Employee> {
+  ): Promise<ReadEmployeeDto> {
     return this.employeesService.createEmployee(createEmployeeDto);
   }
 
@@ -45,7 +40,7 @@ export class EmployeesController {
   async updateEmployee(
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
-  ): Promise<Employee> {
+  ): Promise<ReadEmployeeDto> {
     return this.employeesService.updateEmployee(id, updateEmployeeDto);
   }
 
@@ -53,4 +48,12 @@ export class EmployeesController {
   async deleteEmployees() {
     this.employeesService.deleteEmployees();
   }
+
+  @Get('get-credentials/:personalId')
+  async getCredentials(
+    @Param('personalId') personalId: string,
+  ): Promise<ReadUserDto> {
+    return this.employeesService.getEmployeeCredentialsByPersonalId(personalId);
+  }
+
 }
