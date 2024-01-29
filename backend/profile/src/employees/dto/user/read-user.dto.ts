@@ -1,13 +1,4 @@
-import { AutoMap } from '@automapper/classes';
-import { Role } from '@employees/roles/role.enum';
+import { Employee } from "@employees/schemas/employee.schema";
+import { PickType } from "@nestjs/mapped-types";
 
-export class ReadUserDto {
-  @AutoMap()
-  personalId: string;
-
-  @AutoMap()
-  hash: string;
-
-  @AutoMap()
-  roles: Role[];
-}
+export class ReadUserDto extends PickType(Employee, ['personalId', 'hash', 'roles'] as const) {}
