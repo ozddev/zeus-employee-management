@@ -9,7 +9,7 @@ services:
     ports:
       - 5173:5173
     environment:
-      PUBLIC_GATEWAY_BASE_URL: http://gateway:8000/
+      PUBLIC_GATEWAY_BASE_URL: http://localhost:8000/
 
   gateway:
     build:
@@ -24,7 +24,7 @@ services:
       JWT_EXPIRES: 60
       JWT_IGNORE_EXPIRATION: true
       EMPLOYEES_URL: http://profile:8010
-      FRONTEND_URL: http://frontend:5173
+      FRONTEND_URL: http://localhost:5173
 
   profile:
     build:
@@ -35,4 +35,4 @@ services:
       - 8010:8010
     environment:
       PORT: 8010
-      MONGODB_URI: mongodb+srv://ozddev:GzNZ3FzNgy8hNmMi@zemcluster1.dz4rzdu.mongodb.net/employee?retryWrites=true&w=majority
+      MONGODB_URI: mongodb+srv://<username>:<password>@zemcluster1.dz4rzdu.mongodb.net/employee?retryWrites=true&w=majority
