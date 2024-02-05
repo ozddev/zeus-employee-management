@@ -1,91 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { AppRepository } from './app.repository';
 import { Employee } from 'common/src/lib/schemas/employee.schema';
 import { FilterQuery } from 'mongoose';
-import { InjectMapper } from '@automapper/nestjs';
-import { Mapper } from '@automapper/core';
+import { hashPassword } from 'common/src/lib/helper';
 import { ReadEmployeeDto } from './dto/read-employee.dto';
 import { ReadUserDto } from './dto/user/read-user.dto';
+import { AppRepository } from './app.repository';
 
 @Injectable()
 export class AppService {
-  constructor(
-    private readonly appRepository: AppRepository,
-    @InjectMapper() private readonly classMapper: Mapper,
-  ) {}
+  constructor(private readonly appRepository: AppRepository) {}
 
-  // async createEmployee(
-  //   createEmployeeDto: CreateEmployeeDto,
-  // ): Promise<ReadEmployeeDto | undefined> {
-  //   createEmployeeDto.hash = await hashPassword(createEmployeeDto.hash);
-  //   const schema = this.classMapper.map(
-  //     createEmployeeDto,
-  //     CreateEmployeeDto,
-  //     Employee,
-  //   );
-  //   return this.classMapper.mapAsync(
-  //     await this.appRepository.create({ schema }),
-  //     Employee,
-  //     ReadEmployeeDto,
-  //   );
-  // }
+  async createEmployee(
+    createEmployeeDto: CreateEmployeeDto,
+  ): Promise<ReadEmployeeDto | undefined> {
+    createEmployeeDto.hash = await hashPassword(createEmployeeDto.hash);
+    return this.appRepository.create({ createEmployeeDto });
+  }
 
-  async getEmployees(): Promise<ReadEmployeeDto[]> {
-    return this.classMapper.mapArrayAsync(
-      await this.appRepository.find(),
-      Employee,
-      ReadEmployeeDto,
-    );
+  async getEmployees(): Promise<ReadEmployeeDto[] | undefined> {
+    return this.appRepository.find();
   }
 
   async getEmployeeById(id: string): Promise<ReadEmployeeDto | undefined> {
-    return this.classMapper.mapAsync(
-      await this.appRepository.findOne({ _id: id }),
-      Employee,
-      ReadEmployeeDto,
-    );
+    return this.appRepository.findOne({ _id: id });
   }
 
-  async getEmployeeByPersonalId(
-    personalId: string,
-  ): Promise<ReadEmployeeDto | undefined> {
-    return this.classMapper.mapAsync(
-      await this.appRepository.findOne({ personalId: personalId }),
-      Employee,
-      ReadEmployeeDto,
-    );
+  async getEmployeeByPersonalId(personalId: string): Promise<ReadEmployeeDto | undefined> {
+    return this.appRepository.findOne({ personalId: personalId });
   }
 
   async getEmployeeCredentialsByPersonalId(
     personalId: string,
   ): Promise<ReadUserDto | undefined> {
-    return this.classMapper.mapAsync(
-      await this.appRepository.findOne({ personalId: personalId }),
-      Employee,
-      ReadUserDto,
-    );
+    return this.appRepository.findOne({ personalId: personalId });
   }
 
-  // async updateEmployee(
-  //   id: string,
-  //   updateEmployeeDto: UpdateEmployeeDto,
-  // ): Promise<ReadEmployeeDto | undefined> {
-  //   if (updateEmployeeDto.hash) {
-  //     updateEmployeeDto.hash = await hashPassword(updateEmployeeDto.hash);
-  //   }
-  //   const schema = this.classMapper.map(
-  //     updateEmployeeDto,
-  //     UpdateEmployeeDto,
-  //     Employee,
-  //   );
-  //   return this.classMapper.mapAsync(
-  //     await this.appRepository.findOneAndUpdate({ _id: id }, schema),
-  //     Employee,
-  //     ReadEmployeeDto,
-  //   );
-  // }
+  async updateEmployee(
+    id: string,
+    updateEmployeeDto: UpdateEmployeeDto,
+  ): Promise<ReadEmployeeDto | undefined> {
+    if (updateEmployeeDto.hash) {
+      updateEmployeeDto.hash = await hashPassword(updateEmployeeDto.hash);
+    }
+    return this.appRepository.findOneAndUpdate(
+      { _id: id },
+      updateEmployeeDto,
+    );
+  }
 
   async deleteEmployees(
     entityFilterQuery: FilterQuery<Employee> = {},
