@@ -12,7 +12,6 @@ WORKDIR /usr/src/app
 # Copying this first prevents re-running npm install on every code change.
 COPY --chown=node:node package*.json ./
 
-RUN npm config set legacy-peer-deps=true --location=project
 # Install app dependencies using the `npm ci` command instead of `npm install`
 RUN npm ci
 
