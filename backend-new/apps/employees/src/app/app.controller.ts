@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Param,
-  Patch,
-  Delete,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { ReadEmployeeDto } from './dto/read-employee.dto';
@@ -19,21 +11,24 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @MessagePattern({ cmd: 'hello' })
-  hello(data: string): string {
+  async hello(data: string): Promise<string> {
     return `Hello, ${data}`;
   }
 
-  // @Get(':personalId')
-  // async getEmployee(
-  //   @Param('personalId') personalId: string,
-  // ): Promise<ReadEmployeeDto> {
-  //   return this.appService.getEmployeeByPersonalId(personalId);
-  // }
+  @MessagePattern({ cmd: 'get_employee' })
+  async getEmployee(personalId: string): Promise<ReadEmployeeDto | undefined> {
+    return this.appService.getEmployeeByPersonalId(personalId);
+  }
 
-  // @Get()
-  // async getEmployees(): Promise<ReadEmployeeDto[]> {
-  //   return this.appService.getEmployees();
-  // }
+  @MessagePattern({ cmd: 'get_employees' })
+  async getEmployees(): Promise<ReadEmployeeDto[] | undefined> {
+    return this.appService.getEmployees();
+  }
+
+  @MessagePattern({ cmd: 'get_credentials' })
+  async getCredentials(personalId: string): Promise<ReadUserDto | undefined> {
+    return this.appService.getUserCredentialsByPersonalId(personalId);
+  }
 
   // @Post()
   // async createEmployee(
@@ -42,13 +37,12 @@ export class AppController {
   //   return this.appService.createEmployee(createEmployeeDto);
   // }
 
-  // @Patch(':id')
-  // async updateEmployee(
-  //   @Param('id') id: string,
-  //   @Body() updateEmployeeDto: UpdateEmployeeDto,
-  // ): Promise<ReadEmployeeDto> {
-  //   return this.appService.updateEmployee(id, updateEmployeeDto);
-  // }
+  @MessagePattern({ cmd: 'update_employee' })
+  async updateEmployee(
+    employee: UpdateEmployeeDto
+  ): Promise<ReadEmployeeDto | undefined> {
+    return this.appService.updateEmployee(employee.personalId, employee);
+  }
 
   // @Delete()
   // async deleteEmployees() {
@@ -59,6 +53,6 @@ export class AppController {
   // async getCredentials(
   //   @Param('personalId') personalId: string,
   // ): Promise<ReadUserDto> {
-  //   return this.appService.getEmployeeCredentialsByPersonalId(personalId);
+  //   return this.appService.getUserCredentialsByPersonalId(personalId);
   // }
 }

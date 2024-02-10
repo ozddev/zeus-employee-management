@@ -27,11 +27,13 @@ export class EmployeesService {
     return this.employeesRepository.findOne({ _id: id });
   }
 
-  async getEmployeeByPersonalId(personalId: string): Promise<ReadEmployeeDto | undefined> {
+  async getEmployeeByPersonalId(
+    personalId: string,
+  ): Promise<ReadEmployeeDto | undefined> {
     return this.employeesRepository.findOne({ personalId: personalId });
   }
 
-  async getEmployeeCredentialsByPersonalId(
+  async getUserCredentialsByPersonalId(
     personalId: string,
   ): Promise<ReadUserDto | undefined> {
     return this.employeesRepository.findOne({ personalId: personalId });

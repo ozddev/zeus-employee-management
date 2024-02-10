@@ -1,21 +1,17 @@
 import { Module } from '@nestjs/common';
-
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { HttpModule } from '@nestjs/axios';
-import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { LocalStrategy } from '../strategies/local.strategy';
 
 @Module({
   imports: [
     ClientsModule.register([
       { name: 'EMPLOYEES_SERVICE', transport: Transport.TCP },
     ]),
-    HttpModule,
     PassportModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -32,9 +28,8 @@ import { AuthModule } from './auth/auth.module';
         };
       },
     }),
-    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, JwtStrategy],
+  controllers: [AuthController],
+  providers: [AuthService, LocalStrategy],
 })
-export class AppModule {}
+export class AuthModule {}

@@ -1,29 +1,33 @@
 import { AppService } from './app.service';
-import { ClientProxy } from '@nestjs/microservices';
-import { Controller, Get, Inject, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    @Inject('EMPLOYEES_SERVICE') private employeesClient: ClientProxy
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
-  @Get('/api')
+  @Get('/')
   helloworld() {
-    return 'Hello World!'
+    return 'Hello World!';
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.appService.login(req.user);
+  @UseGuards(JwtAuthGuard)
+  @Get('api/employees/:personalId')
+  async getEmployee(@Param('personalId') personalId: string): Promise<any> {
+    return this.appService.getEmployeeByPersonalId(personalId);
   }
 
-  @Get('api/hello')
-  async hello(): Promise<any> {
-    return this.appService.hello();
+  @UseGuards(JwtAuthGuard)
+  @Get('api/employees')
+  async getEmployees(): Promise<any> {
+    return this.appService.getEmployees();
   }
 }
