@@ -53,7 +53,6 @@ export class EmployeesController {
   async getCredentials(
     @Param('personalId') personalId: string,
   ): Promise<ReadUserDto> {
-    return this.employeesService.getEmployeeCredentialsByPersonalId(personalId);
+    return this.employeesService.getUserCredentialsByPersonalId(personalId);
   }
-
 }
