@@ -1,5 +1,4 @@
 export * from './employee/create-employee.dto';
-export * from './employee/delete-employee.dto';
 export * from './employee/read-employee.dto';
 export * from './employee/update-employee.dto';
 export * from './auth/jwt-token.dto';

@@ -4,20 +4,25 @@ import { ClientProxy } from '@nestjs/microservices';
 import { JwtTokenDto, ReadUserDto, ValidateUserDto } from '@app/common';
 import { firstValueFrom } from 'rxjs';
 import { comparePasswords } from '@app/common';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     @Inject('EMPLOYEES_SERVICE') private employeesClient: ClientProxy,
+    @InjectMapper() private readonly classMapper: Mapper,
   ) {}
 
-  async validateUser(personalId: string, password: string): Promise<ReadUserDto> {
+  async validateUser(
+    personalId: string,
+    password: string,
+  ): Promise<ReadUserDto> {
     const pattern = { cmd: 'get_credentials' };
     const data: ValidateUserDto = await firstValueFrom(
       this.employeesClient.send(pattern, personalId),
     );
-    console.log(data);
 
     if (!data) {
       return null;
@@ -28,8 +33,7 @@ export class AuthService {
       return null;
     }
 
-    const { hash, ...result } = data;
-    return result;
+    return this.classMapper.mapAsync(data, ValidateUserDto, ReadUserDto);
   }
 
   async login(user: ReadUserDto): Promise<JwtTokenDto> {

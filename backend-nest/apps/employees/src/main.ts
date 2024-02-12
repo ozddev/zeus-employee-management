@@ -1,4 +1,4 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { EmployeesModule } from './employees.module';
@@ -11,11 +11,8 @@ async function bootstrap() {
       transport: Transport.TCP,
     },
   );
-  app.useGlobalPipes(new ValidationPipe());
   await app.listen();
-  Logger.log(
-    `🚀 Microservice is running`
-  );
+  Logger.log(`🚀 Microservice is running`);
 }
 
 bootstrap();

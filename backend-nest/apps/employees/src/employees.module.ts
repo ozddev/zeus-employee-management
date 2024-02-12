@@ -7,6 +7,9 @@ import { checkObjectIdIsValid } from './middlewares/validation.middleware';
 import { EmployeesController } from './employees.controller';
 import { EmployeesService } from './employees.service';
 import { ConfigModule } from '@nestjs/config';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { EmployeeProfile } from '@app/common/profile/employee.profile';
 
 @Module({
   imports: [
@@ -14,14 +17,17 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: './apps/employees/.env',
     }),
+    DatabaseModule,
     MongooseModule.forFeature([
       { name: Employee.name, schema: EmployeeSchema },
     ]),
-    DatabaseModule,
     PassportModule,
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
   ],
   controllers: [EmployeesController],
-  providers: [EmployeesService, EmployeesRepository],
+  providers: [EmployeesService, EmployeesRepository, EmployeeProfile],
   exports: [EmployeesRepository],
 })
 export class EmployeesModule implements NestModule {

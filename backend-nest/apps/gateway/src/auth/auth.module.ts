@@ -6,6 +6,9 @@ import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from '../strategies/local.strategy';
+import { AutomapperModule } from '@automapper/nestjs';
+import { classes } from '@automapper/classes';
+import { EmployeeProfile } from '@app/common/profile/employee.profile';
 
 @Module({
   imports: [
@@ -28,8 +31,11 @@ import { LocalStrategy } from '../strategies/local.strategy';
         };
       },
     }),
+    AutomapperModule.forRoot({
+      strategyInitializer: classes(),
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, EmployeeProfile],
 })
 export class AuthModule {}

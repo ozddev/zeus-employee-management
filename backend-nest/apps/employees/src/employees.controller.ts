@@ -1,11 +1,18 @@
-import { Controller } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
-import { ReadEmployeeDto } from './dto/read-employee.dto';
-import { ReadUserDto } from './dto/user/read-user.dto';
+import { Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { MessagePattern } from '@nestjs/microservices';
+import {
+  CreateEmployeeDto,
+  ReadEmployeeDto,
+  UpdateEmployeeDto,
+  ValidateUserDto,
+} from '@app/common';
 
+@UsePipes(
+  new ValidationPipe({
+    whitelist: true,
+  }),
+)
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
@@ -26,7 +33,7 @@ export class EmployeesController {
   }
 
   @MessagePattern({ cmd: 'get_credentials' })
-  async getCredentials(personalId: string): Promise<ReadUserDto | undefined> {
+  async getCredentials(personalId: string): Promise<ValidateUserDto | undefined> {
     return this.employeesService.getUserCredentialsByPersonalId(personalId);
   }
 
