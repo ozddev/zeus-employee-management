@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   frontend:
@@ -9,7 +9,7 @@ services:
     ports:
       - 5173:5173
     environment:
-      PUBLIC_GATEWAY_BASE_URL: http://gateway:8000/
+      PUBLIC_GATEWAY_BASE_URL: http://localhost:8000/
 
   gateway:
     build:
@@ -24,7 +24,7 @@ services:
       JWT_EXPIRES: 60
       JWT_IGNORE_EXPIRATION: true
       EMPLOYEES_URL: http://profile:8010
-      FRONTEND_URL: http://frontend:5173
+      FRONTEND_URL: http://localhost:5173
 
   profile:
     build:
@@ -35,4 +35,24 @@ services:
       - 8010:8010
     environment:
       PORT: 8010
-      MONGODB_URI: mongodb://localhost:27017
+      MONGODB_URI: mongodb+srv://<username>:<password>@zemcluster1.dz4rzdu.mongodb.net/employee?retryWrites=true&w=majority
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    hostname: "rabbitmq"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      # - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
+      #- "./rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro"
+      #- "./autocluster-0.4.1.ez:/usr/lib/rabbitmq/lib/rabbitmq_server-3.5.5/plugins/autocluster-0.4.1.ez"
