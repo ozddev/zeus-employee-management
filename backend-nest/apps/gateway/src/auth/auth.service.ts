@@ -1,11 +1,15 @@
+import {
+  JwtTokenDto,
+  ReadUserDto,
+  ValidateUserDto,
+  comparePasswords,
+} from '@app/common';
+import { Mapper } from '@automapper/core';
+import { InjectMapper } from '@automapper/nestjs';
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientProxy } from '@nestjs/microservices';
-import { JwtTokenDto, ReadUserDto, ValidateUserDto } from '@app/common';
 import { firstValueFrom } from 'rxjs';
-import { comparePasswords } from '@app/common';
-import { InjectMapper } from '@automapper/nestjs';
-import { Mapper } from '@automapper/core';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +23,7 @@ export class AuthService {
     personalId: string,
     password: string,
   ): Promise<ReadUserDto> {
-    const pattern = { cmd: 'get_credentials' };
+    const pattern = 'get_credentials';
     const data: ValidateUserDto = await firstValueFrom(
       this.employeesClient.send(pattern, personalId),
     );

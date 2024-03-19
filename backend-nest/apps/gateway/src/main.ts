@@ -1,11 +1,10 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { GatewayModule } from './gateway.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule);
-  app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: process.env.FRONTEND_URL,
   });
